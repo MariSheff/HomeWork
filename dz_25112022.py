@@ -85,3 +85,10 @@ print('  (o o)    '*n)
 print(' /  V  \   '*n)
 print('/(  _  )\  '*n)
 print('  ^^ ^^    '*n)
+
+# №315. Сумма квадратов
+n = 5
+x=0
+for i in range(1, n+1):
+    x +=i**2
+print(x)
