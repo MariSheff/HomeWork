@@ -38,17 +38,6 @@ y2 = float(input('y2:'))
 print(distance(x1, y1, x2, y2))
 
 
-def IsPointInArea(x, y):
-    return (y <= 2*x+2)*(y <= -x)*((x+1)**2*(y-1)**2 >= 4) + (y >= 2*x+2)*(y >= -x)*((x+1)**2*(y-1)**2 <= 4)
-
-x=int(input("Введите координату X точки: "))
-y=int(input("Введите координату Y точки: "))
-
-if IsPointInArea(x, y) == 1:
-    print("YES!")
-else:
-    print("NO")
-
 # №3795. Принадлежит ли точка области
 
 def IsPointInArea(x, y):
