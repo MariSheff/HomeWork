@@ -24,8 +24,9 @@ print()
 n = 50
 
 for i in range(n):
-    if i**2 < n:
-        print(i**2, end=' ')
+    x = i**2
+    if x < n:
+        print(x, end=' ')
 
 print()
 # №3644. Список степеней двойки
@@ -38,8 +39,9 @@ print()
 '''
 n = 50
 for i in range(n):
-    if pow(2, i) <= n:
-        print(pow(2, i), end=' ')
+    x = pow(2, i)
+    if x <= n:
+        print(x, end=' ')
 
 
 print()
