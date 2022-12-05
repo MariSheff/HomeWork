@@ -1,0 +1,43 @@
+# print('Input file contains:')
+# letters = 0
+# words = 0
+# lines = 0
+# with open('text.txt', 'r') as f:
+#     for i in f.read():
+#         if i.isalpha():
+#             letters += 1
+#         elif i == ' ' or i == '\n':
+#             words += 1
+#         else:
+#             words += 1
+#             lines += 1
+#
+# print(f'{letters} letters')
+# print(f'{words} words')
+# print(f'{lines} lines')
+#
+# line_count = sum(1 for i in open('text.txt'))
+
+# file = open('text.txt')
+
+lines = 0
+words = 0
+symbols = 0
+letters = 0
+with open('text.txt', 'r') as file:
+    for line in file:
+        for i in line:
+            if i.isalpha():
+                letters += 1
+        lines += 1
+        words += len(line.split())   #len - длина, plit - разделить по пробелу
+        symbols += len(line.strip('\n')) #strip - удаление начального и конечного символа, таких как перевод строки и пробел
+        for i in line:
+            if i.isalpha():
+                letters += 1
+
+
+print("Symbols:", symbols)
+print("Lines:", lines)
+print("Words:", words)
+print("letters:", letters)
