@@ -115,7 +115,7 @@ s = 'mar@anotherdomain.com, secretary@testdomain.com, ofice@testdomain.com'
 emails = re.findall(r'(\S*(testdomain.com)\b)', s)
 print(emails)
 for i in emails:
-    if emails[0][1] == 'testdomain.com':
+    if i[0][1] == 'testdomain.com':
         print('valid')
     else:
         print('not valid')
