@@ -107,20 +107,16 @@ import re
 
 s = 'mar@anotherdomain.com, secretary@testdomain.com, ofice@testdomain.com'
 # try:
-#     print('Valid' if re.findall(r'(\S*(testdomain)\b)', s)[1][1] == 'testdomain' else 'Not valid')
+#     print('Valid' if re.findall(r'(\S*(testdomain)\b)', s)[0][1] == 'testdomain' else 'Not valid')
 # except:
 #     print('Not valid')
 
 # или:
 emails = re.findall(r'(\S*(testdomain.com)\b)', s)
 print(emails)
-n=0
 for i in emails:
-    print(i)
-    print(emails[-n][-n])
-    if emails[n][n] == 'testdomain.com':
+    if emails[0][1] == 'testdomain.com':
         print('valid')
-        n += 1
     else:
         print('not valid')
 
