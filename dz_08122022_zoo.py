@@ -9,47 +9,30 @@ class Animal:
 
 
 class Cage:
-    lst1 = []
-    lst2 = []
+    #lst1 = [] 
+    #lst2 = [] 
     def __init__(self, space, animal=None, animal_space=None):
         self.space = space
-        self.animal = animal
+        self.lst = [] 
         self.animal_space = animal_space
 
     def add_animal(self, animal: Animal):
-        if self == cage1:
-            if cage1.space >= animal.space:
-                cage1.animal = animal
-                cage1.animal_space = animal.space
-                cage1.space -= animal.space
-                Cage.lst1.append(animal.name)
-                return f'{True} cage1 {cage1.animal.name}'
-            else:
-                return f'{False} - мест нет cage1 {animal.name}'
-        elif self == cage2:
-            if cage2.space >= animal.space:
-                cage2.animal = animal
-                cage2.animal_space = animal.space
-                cage2.space -= animal.space
-                Cage.lst2.append(animal.name)
-                return f'{True} cage2 {cage2.animal.name}'
-            else:
-                return f'{False} - мест нет cage2 {animal.name}'
+        if self.space >= animal.space:
+            self. animal_space = animal.space
+            self.space -= animal.space
+            self.lst.append(animal.name)
+            return f'{True} {animal.name}'
+        else:
+            return f'{False} - мест нет для {animal.name}'
 
 
     def get_animals(self):
-
-        if self == cage1:
-           return Cage.lst1
-        elif self == cage2:
-            return Cage.lst2
+        return self.lst
 
 
     def free_space(self):
-        if self == cage1:
-            return cage1.space
-        else:
-            return cage2.space
+        return self.space
+  
 
 
 
