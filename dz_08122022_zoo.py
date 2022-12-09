@@ -11,14 +11,12 @@ class Animal:
 class Cage:
     #lst1 = [] 
     #lst2 = [] 
-    def __init__(self, space, animal=None, animal_space=None):
+    def __init__(self, space, lst=None):
         self.space = space
-        self.lst = [] 
-        self.animal_space = animal_space
+        self.lst = []
 
     def add_animal(self, animal: Animal):
         if self.space >= animal.space:
-            self. animal_space = animal.space
             self.space -= animal.space
             self.lst.append(animal.name)
             return f'{True} {animal.name}'
