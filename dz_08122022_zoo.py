@@ -34,8 +34,6 @@ class Cage:
 
     def free_space(self):
         return self.space
-  
-
 
 
 cage1 = Cage(300)
