@@ -28,6 +28,10 @@ class Cage:
 
     def get_animals(self):
         return self.lst
+        #if self == cage1:
+         #    return Cage.lst1
+         #if self == cage2:
+         #    return Cage.lst2
 
 
     def free_space(self):
