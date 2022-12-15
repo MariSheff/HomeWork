@@ -32,14 +32,14 @@ class Product(CategoryProduct):
 #корзина клиента
 class ClientCart(Product):
 
-    def __init__(self, count):
-        self.count = count #??? надо убрать?
+    def __init__(self):
+        self.count = 0
         self.total_count = 0
         self.total_price = 0
         self.lst_cart = []
 
     def __str__(self):
-        return f'{self.count}'
+        return f'{self.lst_cart} на сумму {self.total_price}'
 
 #добавление товара в корзину, пересчет остатка товара
     def add_product(self, product, count):
@@ -53,8 +53,11 @@ class ClientCart(Product):
 
 #удаление из корзины, нужен пересчет остатка товара
     def dell_product(self, product, count):
+        print(self.count)
         self.count -= count
-        self.lst_cart.remove(product.name_product)
+        print(self.count)
+        if self.count == 0:
+            self.lst_cart.remove(product.name_product)
         product.count_product += count
         self.total_count -= count
         self.total_price -= count*product.price
@@ -78,25 +81,31 @@ class Client(ClientCart, Product):
     def __init__(self, name):
         self.name = name
         self.count_bought = 0
-        self.lst_bought = []
-        self.spend = 0
+        self.lst_cart = []
+        self.total_count = 0
+        self.total_price = 0
+        self.count = 0
+    def __str__(self):
+        return f'{self.lst_cart} на сумму {self.total_price}'
 
-    def buy(self, product, count):
-       # super().add_product(product, count)
-        if product.count_product >= count:
-            self.count_bought += count
-            self.lst_bought.append([product.name_product, self.count_bought])
-            product.count_product -= self.count_bought
+    def add_product(self, product, count):
+         super().add_product(product, count)
+        #  if product.count_product >= count:
+        #     self.count_bought += count
+        #     self.lst_cart.append([product.name_product, self.count_bought])
+        #     product.count_product -= self.count_bought
+        #
+        # else:
+        #     print('Товара нет в наличии')
+    def dell_product_from_cart(self, product, count):
+        super().dell_product(product, count)
 
-        else:
-            print('Товара нет в наличии')
 
     def get_goods(self):
-        return self.lst_bought
+        return self.lst_cart
 
 class HistorySales:
     pass
-
 
 dry_food = CategoryProduct('Dry food')
 natural_food = CategoryProduct('Natural food')
@@ -113,12 +122,14 @@ print(Product.available_product(go)) # проверка наличия това�
 
 client1 = Client('Mari')
 client2 = Client('Inga')
-client1.buy(wolfsblut,6)
-print(client1.lst_bought)
+client1.add_product(wolfsblut, 6)
+client2.add_product(go, 6)
 
+print(client1.__str__())
+print(client2.__str__())
 
-cart1 = ClientCart(0)
-cart1.add_product(wolfsblut, 5)
-print(cart1.__str__())
+client1.dell_product(wolfsblut, 2)
+print(client1.__str__())
+
 
 
