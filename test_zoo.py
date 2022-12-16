@@ -16,6 +16,6 @@ import dz.dz_08122022_zoo as zoo
 )
 
 def test_add_animal(n, expected):
-
-    assert zoo.cage1.add_animal(n) == expected
-    assert zoo.cage2.add_animal(n) == expected
+#     можно вот так писать в тестах???
+    assert zoo.cage1.add_animal(n) == expected, zoo.cage2.add_animal(n) == expected
+   
