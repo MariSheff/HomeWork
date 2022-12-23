@@ -21,6 +21,8 @@ city = pd.DataFrame({
     'title': city
 })
 city.to_sql('city', sql, index_label="cityID", if_exists='replace') # Сохраним в базу
+print(city, end ="\n \n " )
+
 
 # создание таблицы Люди (владельцы, заводчики, эксперты)
 name = ['Инга', 'Марина', 'Виктор', 'Юлия', 'Наталия', 'Галина']
@@ -72,6 +74,8 @@ level_show = pd.DataFrame({
     'level_title': level_show,
 })
 level_show.to_sql('level_show', sql, index_label='level_showID', if_exists='replace')
+print(pd.read_sql("SELECT * FROM level_show", sql), end ="\n \n ")
+
 
 # создание таблицы Список выставок
 show = ['NDS Eurasia', 'Монопородная выставка ранга КЧК', 'CAC II группы', 'Memorial Zavodchkova', 'Nevsky Winner - 1', 'Nevsky Winner - 2']
@@ -96,7 +100,7 @@ class_show = pd.DataFrame({
     'class_title': class_show,
 })
 class_show.to_sql('class_show', sql, index_label='class_showID', if_exists='replace')
-
+print(pd.read_sql("SELECT * FROM class_show", sql), end ="\n \n ")
 
 # создание табл Оценки
 score = ['satisfactory', 'good', 'very good', 'excellent 1', 'excellent 2','excellent 3',
@@ -105,25 +109,25 @@ score = ['satisfactory', 'good', 'very good', 'excellent 1', 'excellent 2','exce
 score = pd.DataFrame({
     'score_title': score
 })
-class_show.to_sql('score', sql, index_label='scoreID', if_exists='replace')
-
+score.to_sql('score', sql, index_label='scoreID', if_exists='replace')
+print(pd.read_sql("SELECT * FROM score", sql), end ="\n \n ")
 
 # создание табл Сертификаты
 certificate = ['CAC', 'R.CAC', 'JCAC', 'R.JCAC', 'CC', 'JCC', 'CChC', 'CACIB', 'R.CACIB']
 
 certificate = pd.DataFrame({
-    'certificate_title': certificate
+    'title': certificate
 })
-class_show.to_sql('certificate', sql, index_label='certificateID', if_exists='replace')
-
+certificate.to_sql('certificate', sql, index_label='certificateID', if_exists='replace')
+print(pd.read_sql("SELECT * FROM certificate", sql), end ="\n \n ")
 
 # создание табл Титулы
 title = ['CW', 'BOB', 'BOS', 'BOB Junior', 'Best Male', 'Best Female', 'BOB Puppy', 'BOB Baby' ]
 title = pd.DataFrame({
     'title': title
 })
-class_show.to_sql('title', sql, index_label='titleID', if_exists='replace')
-
+title.to_sql('title', sql, index_label='titleID', if_exists='replace')
+print(pd.read_sql("SELECT * FROM title", sql), end ="\n \n ")
 
 # создание табл Результаты выставки
 showID = [1, 1, 1, 1]
@@ -165,8 +169,6 @@ result_show = pd.DataFrame({
 })
 result_show.to_sql('result_show', sql, index_label='result_showID', if_exists='append')
 
-print(pd.read_sql("SELECT * FROM result_show", sql))
-
 showID = [5, 5]
 expertID = [5, 5]
 dogID = [2, 3]
@@ -190,23 +192,55 @@ print(pd.read_sql("SELECT * FROM result_show", sql))
 # Вывод читабельной таблицы результатов
 
 query = """
-SELECT s.show_title, s.date_show, s.city, s.level_show, (p.surname||' '||p.name) as expert, d.name,
-s.date_show, s.city, s.level_title
+SELECT s.show_title, 
+lshow.level_title, 
+s.date_show,
+city.title,
+(p.surname||' '||p.name) as expert,
+d.name as dog,
+class.class_title,
+sc.score_title,
+ser.title as sertificate,
+t.title
+  
 FROM result_show AS res
-LEFT JOIN show AS s ON res.showID =  s.showID 
-LEFT JOIN people AS p ON  p.peopleID = res.expertID
-LEFT JOIN dogs AS d ON  res.dogID = d.dogsID
-LEFT JOIN level_show AS level ON  res.dogID = level.level_showID
-ORDER BY s.date_show
-"""
-#   s.date_show, s.city, s.level_show,,
-# class.class_title, sert.certificate_title, t.title
-# LEFT JOIN class_show AS class ON  class.class_showID = res.class_showID
-# LEFT JOIN score AS sc ON  sc.scoreID = res.scoreID
-# LEFT JOIN certificate AS sert ON  sert.certificateID = res.certificateID
-# LEFT JOIN title AS t ON  t.titleID = res.titleID
-# ORDER BY s.date_show, class.class_title
+JOIN show AS s ON res.showID =  s.showID 
+JOIN level_show AS lshow ON s.level_show =  lshow.level_showID
+JOIN city ON s.city =  city.cityID
+JOIN people AS p ON  p.peopleID = res.expertID
+JOIN dogs AS d ON  res.dogID = d.dogsID
+JOIN class_show AS class ON  res.class_showID = class.class_showID 
+LEFT JOIN title AS t ON  t.titleID = res.titleID
+LEFT JOIN score AS sc ON  sc.scoreID = res.scoreID
+LEFT JOIN certificate AS ser ON  res.certificateID = ser.certificateID
 
+ORDER BY s.date_show, class.class_title
+"""
 
 result = pd.read_sql(query, sql)
+print(result)
+
+query1 = """
+SELECT dogs.name as dog, 
+s.show_title,  
+s.date_show,
+city.title,
+(p.surname||' '||p.name) as expert,
+sc.score_title,
+ser.title as sertificate,
+t.title
+  
+FROM dogs
+LEFT JOIN result_show AS res ON  res.dogID = dogs.dogsID  
+LEFT JOIN people AS p ON  p.peopleID = res.expertID
+LEFT JOIN show AS s ON s.showID =  res.showID 
+LEFT JOIN city ON s.city =  city.cityID
+LEFT JOIN title AS t ON  t.titleID = res.titleID
+LEFT JOIN score AS sc ON  sc.scoreID = res.scoreID
+LEFT JOIN certificate AS ser ON  res.certificateID = ser.certificateID
+WHERE dogID=0
+ORDER BY s.date_show
+"""
+
+result = pd.read_sql(query1, sql)
 print(result)
